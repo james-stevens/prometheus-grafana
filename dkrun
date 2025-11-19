@@ -1,0 +1,6 @@
+#! /bin/sh
+
+docker run \
+	-v /opt/data/prometheus-grafana:/opt/data \
+	-p 127.0.0.1:80:80 -p 192.168.1.145:80:80 \
+	-it prometheus-grafana $*
