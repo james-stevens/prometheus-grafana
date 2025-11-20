@@ -12,7 +12,8 @@ RUN adduser -u 850 -S -h /dev/null -G prometheus prometheus
 RUN addgroup -g 851 -S grafana
 RUN adduser -u 851 -S -h /dev/null -G grafana grafana
 
-RUN apk add prometheus grafana
+RUN apk add prometheus
+RUN apk add grafana
 RUN ln -s /opt/data/grafana /usr/share/grafana/data
 
 COPY bin /usr/local/bin
