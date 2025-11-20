@@ -1,0 +1,16 @@
+#! /bin/sh
+
+refresh_interval="${PG_REFRESH_INTERVAL:-300s}"
+retention_time="${PG_RETENTION_TIME:-180d}"
+
+conf="/opt/data/prometheus/etc/prometheus.yml"
+chown root:prometheus ${conf}
+chmod 640 ${conf}
+mkdir -p /opt/data/prometheus/data /opt/data/prometheus/etc
+chown -R prometheus: /opt/data/prometheus
+
+exec su -s /bin/sh prometheus -c "exec /usr/bin/prometheus \
+	--storage.tsdb.path=/opt/data/prometheus/data \
+	--storage.tsdb.retention.time=${retention_time} \
+	--config.file=${conf}" 2>&1 \
+	| exec su -s /bin/sh nobody -c "exec logger -t prometheus -p ${PG_FACILITY:-local1}.${PG_SEVERITY:-info}"

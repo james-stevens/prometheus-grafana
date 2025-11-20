@@ -1,6 +1,8 @@
 #! /bin/sh
 
 docker run \
+	--env SYSLOG_STDOUT=Y \
 	-v /opt/data/prometheus-grafana:/opt/data \
-	-p 127.0.0.1:80:80 -p 192.168.1.145:80:80 \
+	-p 192.168.1.145:80:3000 \
+	-p 192.168.1.145:9090:9090 \
 	-it prometheus-grafana $*
